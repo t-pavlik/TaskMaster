@@ -1,47 +1,37 @@
-<script setup>
-import HelloWorld from './components/HelloWorld.vue'
-import TheWelcome from './components/TheWelcome.vue'
-</script>
-
 <template>
-  <header>
-    <img alt="Vue logo" class="logo" src="./assets/logo.svg" width="125" height="125" />
-
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
-    </div>
-  </header>
-
-  <main>
-    <TheWelcome />
-  </main>
+  <section class="hero is-dark is-fullheight">
+    <header>
+      <h1 class="title is-1 text-center">TaskMaster</h1>
+      <nav class="hero-head">
+        <div class="container">
+          <div class="tabs is-boxed is-fullwidth">
+            <div class="col text-center">
+              <router-link to="/">Domů</router-link>
+            </div>
+            <div class="col text-center">
+              <router-link to="/projects">Projekty</router-link>
+            </div>
+            <div class="col text-center">
+              <router-link to="/tasks">Úkoly</router-link>
+            </div>
+          </div>
+        </div>
+        <main><router-view></router-view></main>
+      </nav>
+    </header>
+  </section>
 </template>
 
-<style scoped>
-header {
-  line-height: 1.5;
+<script>
+import TasksView from "@/components/TasksView.vue";
+
+export default {
+  name: 'App',
+  components: {TasksView}
 }
+</script>
 
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
-}
+<style>
+@import "node_modules/bulma/css/bulma.min.css";
 
-@media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
-  }
-
-  .logo {
-    margin: 0 2rem 0 0;
-  }
-
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
-}
 </style>
