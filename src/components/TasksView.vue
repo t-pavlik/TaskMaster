@@ -29,9 +29,14 @@
           </div>
         </header>
 
-        <div class="card-content">
+        <div class="card-content" style="padding: 16px">
           <div class="content">
-            {{ task.content }}
+            <div class="has-text-weight-bold">
+              Task description:
+            </div>
+            <div class="block">
+              {{ task.content }}
+            </div>
           </div>
         </div>
         <div class="card-footer">

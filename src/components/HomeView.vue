@@ -18,7 +18,7 @@
           <li>Adding tasks within projects</li>
           <li>Tracking the completion status of tasks</li>
           <li>History of completed tasks and projects</li>
-          <li>Data are stored in the Firestore cloud service</li>
+          <li>Data storing in the Firebase cloud service</li>
         </ul>
       </div>
     </div>
