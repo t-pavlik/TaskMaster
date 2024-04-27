@@ -6,13 +6,13 @@
         <div class="container">
           <div class="tabs is-boxed is-fullwidth">
             <div class="col text-center">
-              <router-link to="/">Domů</router-link>
+              <router-link to="/">Home</router-link>
             </div>
             <div class="col text-center">
-              <router-link to="/projects">Projekty</router-link>
+              <router-link to="/projects">Projects</router-link>
             </div>
             <div class="col text-center">
-              <router-link to="/tasks">Úkoly</router-link>
+              <router-link to="/tasks">Tasks</router-link>
             </div>
           </div>
         </div>

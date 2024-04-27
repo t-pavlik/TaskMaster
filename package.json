@@ -13,7 +13,6 @@
     "bootstrap-vue": "^2.23.1",
     "bulma": "^1.0.0",
     "firebase": "^10.11.0",
-    "uuid": "^9.0.1",
     "vue": "^3.4.21",
     "vue-router": "^4.3.2",
     "vuefire": "^3.1.23"

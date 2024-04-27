@@ -33,7 +33,7 @@
             :disabled="!newTaskName || !newInfo"
             class="button is-info"
         >
-          Add
+          Create task
         </button>
       </div>
     </div>
@@ -55,11 +55,11 @@
         </div>
         <div class="card-footer">
           <div class="select is-rounded">
-            <select @change="onChange(task.id, $event)">
-              <option value="1">Open</option>
-              <option value="2">In progress</option>
-              <option value="3">Done</option>
-              <option value="4">Won't do</option>
+            <select v-model="task.state" @change="changeTaskState(task.id, $event)">
+              <option value=1>Open</option>
+              <option value=2>In progress</option>
+              <option value=3>Done</option>
+              <option value=4>Won't do</option>
             </select>
           </div>
           <button
@@ -70,19 +70,38 @@
       </div>
     </div>
   </div>
-
 </template>
 
 <script setup>
-import {ref} from "vue";
-import {v4 as uuidv4} from "uuid"
+import {onMounted, ref} from "vue";
+import {addDoc, collection, deleteDoc, doc, onSnapshot, updateDoc} from "firebase/firestore"
+import {db} from "@/firebase"
+
+const taskCollectionRef = collection(db, "tasks")
 
 const tasks = ref([])
+
+onMounted(async () => {
+  onSnapshot(taskCollectionRef, (querySnapshot) => {
+    const fbTasks = []
+    querySnapshot.forEach((doc) => {
+      const task = {
+        id: doc.id,
+        name: doc.data().name,
+        content: doc.data().content,
+        color: doc.data().color,
+        state: doc.data().state
+      }
+      fbTasks.push(task)
+    })
+    tasks.value = fbTasks
+  })
+})
 
 const newTaskName = ref("");
 const newInfo = ref("");
 
-const colorMap = {
+const state = {
   1: "",
   2: "blue",
   3: "green",
@@ -90,24 +109,26 @@ const colorMap = {
 }
 
 const addTask = () => {
-  const newTask = {
-    id: uuidv4(),
+  addDoc(taskCollectionRef, {
     name: newTaskName.value,
     content: newInfo.value,
-    color: colorMap[1]
-  }
-  tasks.value.push(newTask)
+    color: state[1],
+    state: 1
+  })
+
   newTaskName.value = ""
   newInfo.value = ""
-  console.log(newTask)
 }
 
 const deleteTask = id => {
-  tasks.value = tasks.value.filter(task => task.id !== id)
+  deleteDoc(doc(taskCollectionRef, id))
 }
 
-const onChange = (id, event) => {
-  tasks.value.find(task => task.id === id).color = colorMap[event.target.value];
+const changeTaskState = (id, event) => {
+  updateDoc(doc(taskCollectionRef, id), {
+    color: state[event.target.value],
+    state: event.target.value
+  })
 }
 </script>
 
