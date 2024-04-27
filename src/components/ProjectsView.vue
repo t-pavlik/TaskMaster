@@ -74,6 +74,22 @@
       </div>
     </div>
   </div>
+
+  <div class="modal" :class="{ 'is-active': deleteModalOpen }">
+    <div class="modal-background"></div>
+    <div class="modal-content">
+      <div class="box text-center" style="max-width: 600px; margin: auto;">
+        <div style="margin-bottom: 20px">
+          There are active tasks for this project. Are you sure you want to delete this project?
+        </div>
+        <div class="grid">
+          <button @click="deleteProjectAndCloseModal" class="button is-danger">Yes</button>
+          <button @click="closeDeleteProject" class="button is-info">No</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
 </template>
 
 <script setup>
@@ -81,11 +97,29 @@ import {onMounted, ref} from "vue";
 import {addDoc, collection, deleteDoc, doc, onSnapshot} from "firebase/firestore"
 import {db} from "@/firebase"
 
+const taskCollectionRef = collection(db, "tasks")
 const projectCollectionRef = collection(db, "projects")
 
+const tasks = ref([])
 const projects = ref([])
 
 onMounted(async () => {
+  onSnapshot(taskCollectionRef, (querySnapshot) => {
+    const fbTasks = []
+    querySnapshot.forEach((doc) => {
+      const task = {
+        id: doc.id,
+        name: doc.data().name,
+        content: doc.data().content,
+        color: doc.data().color,
+        state: doc.data().state,
+        project: doc.data().project
+      }
+      fbTasks.push(task)
+    })
+    tasks.value = fbTasks
+  })
+
   onSnapshot(projectCollectionRef, (querySnapshot) => {
     const fbTasks = []
     querySnapshot.forEach((doc) => {
@@ -109,9 +143,25 @@ const addProject = () => {
   newProjectName.value = ""
 }
 
+const deleteModalOpen = ref(false)
+const actualDelete = ref("")
+
 const deleteProject = id => {
-  deleteDoc(doc(projectCollectionRef, id))
-  //TODO delete all task with this project
+  if (!tasks.value.find(task => task.project.id === id)) {
+    deleteDoc(doc(projectCollectionRef, id))
+  } else {
+    deleteModalOpen.value = true;
+    actualDelete.value = id
+  }
+}
+
+const deleteProjectAndCloseModal = () => {
+  deleteDoc(doc(projectCollectionRef, actualDelete.value))
+  closeDeleteProject()
+}
+
+const closeDeleteProject = () => {
+  deleteModalOpen.value = false;
 }
 
 const isModalOpen = ref(false)
