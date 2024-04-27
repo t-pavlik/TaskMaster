@@ -76,8 +76,7 @@
   </div>
 
   <div class="modal" :class="{ 'is-active': deleteModalOpen }">
-    <div class="modal-background"></div>
-    <div class="modal-content">
+    <div class="modal-background align-content-center">
       <div class="box text-center" style="max-width: 600px; margin: auto;">
         <div style="margin-bottom: 20px">
           There are active tasks for this project. Are you sure you want to delete this project?

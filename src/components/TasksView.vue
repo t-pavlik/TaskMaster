@@ -170,18 +170,18 @@ const newTaskName = ref("");
 const newInfo = ref("");
 const newProjectRefId = ref("")
 
-const state = {
+const colorMap = {
   1: "",
-  2: "blue",
-  3: "green",
-  4: "red"
+  2: "#4FC3F7",
+  3: "#66BB6A",
+  4: "#E53935"
 }
 
 const addTask = () => {
   addDoc(taskCollectionRef, {
     name: newTaskName.value,
     content: newInfo.value,
-    color: state[1],
+    color: colorMap[1],
     state: 1,
     project: projects.value.find(project => project.id === newProjectRefId.value)
   })
@@ -196,7 +196,7 @@ const deleteTask = id => {
 
 const changeTaskState = (id, event) => {
   updateDoc(doc(taskCollectionRef, id), {
-    color: state[event.target.value],
+    color: colorMap[event.target.value],
     state: event.target.value
   })
 }

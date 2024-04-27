@@ -6,9 +6,10 @@
       >
         TaskMaster
       </h1>
+
       <nav class="hero-head">
         <div class="container" style="padding: 20px">
-          <div class="tabs is-boxed is-fullwidth">
+          <div class="tabs is-toggle is-fullwidth">
             <div class="col text-center">
               <router-link to="/">Home</router-link>
             </div>
@@ -25,9 +26,11 @@
         </main>
       </nav>
     </header>
-    <!--    <footer>-->
-    <!--      <div class="footer ">test</div>-->
-    <!--    </footer>-->
+    <footer>
+      <div class="footer text-center" style="padding: 5px">
+        Created by Tomas Pavlik
+      </div>
+    </footer>
   </section>
 </template>
 
@@ -39,5 +42,4 @@ export default {
 
 <style>
 @import "node_modules/bulma/css/bulma.min.css";
-
 </style>
