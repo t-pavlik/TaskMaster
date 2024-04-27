@@ -1,10 +1,15 @@
 <template>
   <section class="hero is-dark is-fullheight">
     <header>
-      <h1 class="title is-1 text-center">TaskMaster</h1>
+      <h1 class="title is-1 text-center"
+          style="margin: 10px"
+      >
+        TaskMaster
+      </h1>
+
       <nav class="hero-head">
-        <div class="container">
-          <div class="tabs is-boxed is-fullwidth">
+        <div class="container" style="padding: 20px">
+          <div class="tabs is-toggle is-fullwidth">
             <div class="col text-center">
               <router-link to="/">Home</router-link>
             </div>
@@ -16,22 +21,25 @@
             </div>
           </div>
         </div>
-        <main><router-view></router-view></main>
+        <main>
+          <router-view></router-view>
+        </main>
       </nav>
     </header>
+    <footer>
+      <div class="footer text-center" style="padding: 5px">
+        Created by Tomas Pavlik
+      </div>
+    </footer>
   </section>
 </template>
 
 <script>
-import TasksView from "@/components/TasksView.vue";
-
 export default {
-  name: 'App',
-  components: {TasksView}
+  name: 'App'
 }
 </script>
 
 <style>
 @import "node_modules/bulma/css/bulma.min.css";
-
 </style>
