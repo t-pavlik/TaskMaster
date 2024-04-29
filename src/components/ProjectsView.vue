@@ -79,7 +79,7 @@
     <div class="modal-background align-content-center">
       <div class="box text-center" style="max-width: 600px; margin: auto;">
         <div style="margin-bottom: 20px">
-          There are active tasks for this project. Are you sure you want to delete this project?
+          {{ deleteText }}
         </div>
         <div class="grid">
           <button @click="deleteProjectAndCloseModal" class="button is-danger">Yes</button>
@@ -144,18 +144,21 @@ const addProject = () => {
 
 const deleteModalOpen = ref(false)
 const actualDelete = ref("")
+const deleteText = ref("")
 
 const deleteProject = id => {
-  if (!tasks.value.find(task => task.project.id === id)) {
-    deleteDoc(doc(projectCollectionRef, id))
+  if (!tasks.value.find(task => task.project.id === id && (task.state !== '3' && task.state !== '4'))) {
+    deleteText.value = "Are you sure you want to delete this project?"
   } else {
-    deleteModalOpen.value = true;
-    actualDelete.value = id
+    deleteText.value = "There are active tasks for this project. Are you sure you want to delete this project?"
   }
+  deleteModalOpen.value = true;
+  actualDelete.value = id
 }
 
 const deleteProjectAndCloseModal = () => {
   deleteDoc(doc(projectCollectionRef, actualDelete.value))
+  tasks.value.filter(task => task.project.id === actualDelete.value).forEach(task => deleteDoc(doc(taskCollectionRef, task.id)))
   closeDeleteProject()
 }
 
