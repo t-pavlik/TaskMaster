@@ -13,10 +13,10 @@ purpose is to facilitate team work organization and improve task planning tracki
 
 ## Technologies Used
 
-- Vue.js
-- Bootstrap
-- Bulma
-- Firebase (Firestore)
+- [Vue.js](https://vuejs.org/guide/introduction.html)
+- [Bootstrap](https://getbootstrap.com/docs/5.3/getting-started/introduction/)
+- [Bulma](https://bulma.io/documentation/)
+- [Firebase (Firestore)](https://console.firebase.google.com/u/0/)
 
 ## Installation
 
