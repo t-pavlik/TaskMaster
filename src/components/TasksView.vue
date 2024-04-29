@@ -49,7 +49,7 @@
             </select>
           </div>
           <div class="card-footer-item delete-button-container">
-            <button @click="deleteTask(task.id)" class="button is-danger">Delete</button>
+            <button @click="deleteTaskAndOpenModal(task.id)" class="button is-danger">Delete</button>
           </div>
         </div>
       </div>
@@ -127,6 +127,19 @@
       </div>
     </div>
   </div>
+
+  <div class="modal" :class="{ 'is-active': deleteModalOpen }">
+    <div class="modal-background align-content-center">
+      <div class="box text-center" style="max-width: 600px; margin: auto;">
+        <p v-html="deleteText" style="margin-bottom: 20px"></p>
+        <div class="grid">
+          <button @click="deleteTaskAndCloseModal" class="button is-danger">Yes</button>
+          <button @click="closeDeleteTask" class="button is-info">No</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
 </template>
 
 <script setup>
@@ -197,6 +210,25 @@ const addTask = () => {
 
 const deleteTask = id => {
   deleteDoc(doc(taskCollectionRef, id))
+}
+
+const deleteModalOpen = ref(false)
+const actualDelete = ref("")
+const deleteText = ref("")
+
+const deleteTaskAndOpenModal = id => {
+  deleteText.value = `Are you sure you want to delete task <strong>${tasks.value.find(task => task.id === id).name}</strong>?`
+  deleteModalOpen.value = true;
+  actualDelete.value = id
+}
+
+const deleteTaskAndCloseModal = () => {
+  deleteDoc(doc(taskCollectionRef, actualDelete.value))
+  closeDeleteTask()
+}
+
+const closeDeleteTask = () => {
+  deleteModalOpen.value = false;
 }
 
 const changeTaskState = (id, event) => {

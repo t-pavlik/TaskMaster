@@ -25,7 +25,7 @@
         </header>
         <div class="card-footer">
           <div class="card-footer-item delete-button-container">
-            <button @click="deleteProject(project.id)" class="button is-danger">Delete</button>
+            <button @click="deleteProjectAndOpenModal(project.id)" class="button is-danger">Delete</button>
           </div>
         </div>
       </div>
@@ -78,9 +78,7 @@
   <div class="modal" :class="{ 'is-active': deleteModalOpen }">
     <div class="modal-background align-content-center">
       <div class="box text-center" style="max-width: 600px; margin: auto;">
-        <div style="margin-bottom: 20px">
-          {{ deleteText }}
-        </div>
+        <p v-html="deleteText" style="margin-bottom: 20px"></p>
         <div class="grid">
           <button @click="deleteProjectAndCloseModal" class="button is-danger">Yes</button>
           <button @click="closeDeleteProject" class="button is-info">No</button>
@@ -146,11 +144,11 @@ const deleteModalOpen = ref(false)
 const actualDelete = ref("")
 const deleteText = ref("")
 
-const deleteProject = id => {
+const deleteProjectAndOpenModal = id => {
   if (!tasks.value.find(task => task.project.id === id && (task.state !== '3' && task.state !== '4'))) {
-    deleteText.value = "Are you sure you want to delete this project?"
+    deleteText.value = `Are you sure you want to delete project <strong>${projects.value.find(project => project.id === id).name}</strong>?`
   } else {
-    deleteText.value = "There are active tasks for this project. Are you sure you want to delete this project?"
+    deleteText.value = `There are active tasks for this project. Are you sure you want to delete project <strong>${projects.value.find(project => project.id === id).name}</strong>?`
   }
   deleteModalOpen.value = true;
   actualDelete.value = id
